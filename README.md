@@ -39,3 +39,13 @@ what protocol is 어떤 사람들이 어딘가에 있는 방에서 만나고 그
 ## 1.3 WebSocket Events
 
 Socket이란게 뭘까, Socket is the person who just connected. Socket is the line conected browser with server
+
+## 1.8 Nickname part Two
+
+JSON stringify는 javascript object를 string으로 바꿔주고
+JSON Parse는 string을 Javascript object로 바꿔준다.
+
+왜 Javascript Object를 String으로 보내야 하는가.
+
+Back-end가 Javascript Object를 전혀 이해하지 못한다. 우리는 단순히 String만을 보낼수 있으니까,
+Javascript Object를 백엔드로 보내는 것은 좋지 않다. 왜냐하면 연결하고 싶은 front-end와 back-end 서버가 서로 다른 언어일 수 있기 때문이다. Javascript Object로 보냈지만, 읽을 수 없는 상황일 수 있다. Javascript로 서버를 만들었지만 누군가는 front에서 Go언어로 접속할 수 있기 때문에 모두가 읽을 수 있는 String으로 보낸 다음에, 각 서버에서는 그 String을 가지고 뭘 할지 정하는 것.
