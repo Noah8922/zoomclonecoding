@@ -69,3 +69,11 @@ SocketIO에서는 emit을 사용함으로써 어떤 종류의 Event이든 보낼
 ## 2.3 Recap
 
 프론트에 작성된 코드는 백엔드에서 재생 버튼을 누르면 실행되는 것이다.
+
+## 2.4
+
+```Javascript
+    console.log(socket.id); // socket에는 id가 있어서 id로 구별할 수 있다.
+    console.log(socket.rooms); // socket이 어떤 방에 있는지 알기 위해서는  socket.rooms를 하면 된다.
+    socket.join(roomname); // 방에 들어가기 위해서는 socket.join을 하면 된다.
+```
