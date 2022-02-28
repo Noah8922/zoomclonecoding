@@ -55,6 +55,17 @@ Javascript Object를 백엔드로 보내는 것은 좋지 않다. 왜냐하면 �
 it is framework, Websocket에 문제가 생겨도 SocketIO는 계속해서 작동한다. SocketIO가 WebSocket의 부가기능이 아님.
 SocketIO는 프론트와 백엔드간 실시간 통신을 가능케 해주는 프레임워크 또는 라이브러리 이다.
 
-# 2.1 Installing SocketIO
+## 2.1 Installing SocketIO
 
 방을 만들어준다. 나중에 이부분이 필요할지도
+
+## 2.2 SocketIO is Amazing
+
+Socket.emit("room". {payload : input.value})
+
+SocketIO에서는 emit을 사용함으로써 어떤 종류의 Event이든 보낼 수 있고, 굳이 String이 아니어도 괜찮다.
+마지막에 실행되는 function을 보내고 싶으면, 마지막에 넣어야 한다.
+
+## 2.3 Recap
+
+프론트에 작성된 코드는 백엔드에서 재생 버튼을 누르면 실행되는 것이다.

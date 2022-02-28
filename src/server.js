@@ -14,7 +14,12 @@ const server = http.createServer(app);
 const io = SocketIO(server);
 
 io.on("connection", (socket) => {
-  console.log(socket);
+  socket.on("enter_room", (roomname, done) => {
+    console.log(roomname);
+    setTimeout(() => {
+      done("hello from the backend");
+    }, 15000);
+  });
 });
 
 /* 
