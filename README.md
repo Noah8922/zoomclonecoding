@@ -77,3 +77,11 @@ SocketIO에서는 emit을 사용함으로써 어떤 종류의 Event이든 보낼
     console.log(socket.rooms); // socket이 어떤 방에 있는지 알기 위해서는  socket.rooms를 하면 된다.
     socket.join(roomname); // 방에 들어가기 위해서는 socket.join을 하면 된다.
 ```
+
+# 3.0 User Video
+
+- 첫번째로 유저로부터 비디오를 가져와서 화면에 보여줘야 한다. 음소거, 카메라, 카메라 전환
+- playsinLine은 모바일 브라우저가 필요로하는 property이다.
+  모바일로 비디오를 재생할 때, 그 비디오는 전체화면이 되어버린다. 그리고 핸드폰의 비디오 플레이어를 실행한다.
+  playsinLine을 사용하면 비디오는 전체화면이 되지 않을 것이고, 웹사이트에서만 실행되도록 할 것이다.
+- Stream은 비디오와 오디오가 결합된 것.
