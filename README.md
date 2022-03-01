@@ -85,3 +85,59 @@ SocketIO에서는 emit을 사용함으로써 어떤 종류의 Event이든 보낼
   모바일로 비디오를 재생할 때, 그 비디오는 전체화면이 되어버린다. 그리고 핸드폰의 비디오 플레이어를 실행한다.
   playsinLine을 사용하면 비디오는 전체화면이 되지 않을 것이고, 웹사이트에서만 실행되도록 할 것이다.
 - Stream은 비디오와 오디오가 결합된 것.
+
+## 3.2 Camera Switch
+
+- Camera를 바꾸기 위해서는 Select에서 Input값이 변경 되었는지를 감지해야 한다.
+
+## 3.3 Introduction to WebRTC
+
+- peer to peer, 브라우저끼지 연결되어 영상이나 오디오가 서버에 업로드 되지 않는다. 대신 서버는 어떤 브라우저에게 다른 한 브라우저의 위치를 알려줄 때만 사용된다.
+
+## 3.4 Rooms
+
+- 사람들이 Room을 submit하면 어떻게 되지? 우리는 form을 얻을거고 Welcome안에서 submit event를 listen할거고 그 다음 input을 얻어서 그것을 백엔드로 보낼거야.
+  RoomName도 선언해준 후에, 나중에 방에 참가했을 때 쓸 수 있도록 RoomName을 입력할때 받아올 수 있도록 한다. 왜냐하면 우리가 지금 현재 있는 방의 이름을 알아야 하기 때문이다.
+
+## 3.5 Offer
+
+- addStream을 하기 전에 양쪽 브라우저에 RTC 연결을 만들어줘야 함. 이 연결은 일단 각각 따로 설정이 이루어진 후에 그 다음에 서버를 이용하여 즉, Socket IO를 활용하여 이어줄 것이다.
+
+- 실제로 peerConnection을 모든 곳에 다 공유하고 싶다. 누군가가 getMedia 함수를 불렀을 때와 똑같이 myStream을 공유할 것이다.
+
+```javascript
+let myStream;
+let muted = false;
+let cameraOff = false;
+let roomName;
+let myPeerConnection;
+```
+
+첫번째 단계는 우리가 peerConnection을 각 브라우저에 만드는 것이다.
+
+그 다음이 addStream인데, 이건 낡은 옛날 함수이다. 우리가 하고싶은 것은 우리 카메라에서 오는 이 Stream의 데이터를 가져다가 연결을 만드는 것, 우리는 그 peer-to-peer 연결 안에다가 영상과 오디오를 집어넣어야 한다.
+
+```javascript
+function makeConnection() {
+  myPeerConnection = new RTCPeerConnection();
+  console.log(myStream.getTracks()); //VideoTrack and AudioTrack
+}
+```
+
+영상과 오디오를 주고 받을때, 그 영상의 오디오와 그 영상의 데이터들을 peer connection에 넣어야겠지?
+
+- CreateOffer를 해야하는데, peer A가 offer를 생성하고 peerB가 answer를 생성한다. 그렇다면 누가 peerA이고 누가 peerB인가.
+  peerA는 누군가 들어왔을 때 알림을 받는 브라우저이다. 즉 이 브라우저가 offer를 만드는 이 행위를 시작하는 주체라고 할 수 있다.
+  그 내용의 코드가 아래와 같다.
+
+```javascript
+//offer part (Peer A에서 일어나는 일 / 알림을 받는 쪽)
+socket.on("welcome", async () => {
+  const offer = await myPeerConnection.createOffer(); //offer를 만든는 부분
+  myPeerConnection.setLocalDescription(offer); //offer들을 연결하는 부분
+  console.log("sent this offer");
+  socket.emit("offer", offer, roomName); // 어떤방이 offer을 emit 할 것인지 누구한테 보낼지 알려줘야 한다.
+});
+```
+
+- sibnaling process : 우리는 오디오와 영상을 주고받기 위해 서버가 필요하지 않는다. 하지만 offer을 주고 받기 위해서는 server가 필요하다. offer가 주고 받아진 순간, 우리는 직접적으로 대화를 할 수 있다.
