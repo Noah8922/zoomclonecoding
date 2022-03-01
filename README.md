@@ -134,10 +134,32 @@ function makeConnection() {
 //offer part (Peer A에서 일어나는 일 / 알림을 받는 쪽)
 socket.on("welcome", async () => {
   const offer = await myPeerConnection.createOffer(); //offer를 만든는 부분
-  myPeerConnection.setLocalDescription(offer); //offer들을 연결하는 부분
+  myPeerConnection.setLocalDescription(offer); //offer를 peer A의 환경에서 설정해 주는 것. (=Local)
   console.log("sent this offer");
   socket.emit("offer", offer, roomName); // 어떤방이 offer을 emit 할 것인지 누구한테 보낼지 알려줘야 한다.
 });
 ```
 
 - sibnaling process : 우리는 오디오와 영상을 주고받기 위해 서버가 필요하지 않는다. 하지만 offer을 주고 받기 위해서는 server가 필요하다. offer가 주고 받아진 순간, 우리는 직접적으로 대화를 할 수 있다.
+
+## 3.6 Answer
+
+- 우리가 offer을 보낸 다는 것은 이미 offer를 만든 후에 setLocalDescription을 마쳤고 peer B 에게 Description을 보낸다는 것이다. 그것이 setRemoteDescription을 의미한다.
+
+## 3.7 IceCandidate
+
+- 우리가 offer와 answer를 가질 때, 그걸 받는 걸 모두 끝냈을 때, 그러면 pee-to-peerㅇ 연결의 양쪽에서 icecnadidate라는 이벤트를 실행할거야
+- Icecandidate란 Internet Connectivity Establishment (인터넷 연결 생성)이며 webRTC에 필요한 프로토콜을 의미하는데, 멀리 떨어진 장치와 소통할 수 있게 하기 위함이다. 즉, 브라우저가 서로 서통살 수 있게 해주는 방법이다. 일종의 중재하는 프로세스 같은 거지. 어떤 소통 방법이 가장 좋을 것인지를 제안할 때 쓰는 것이다.
+- 다수의 후보들이 각각의 연결에서 제안되고 그리고 그들은 서로의 동의하에 하나를 선택한다. 그리고 그것을 소통 방식으로 사용한다.
+- 이 모든 것은 answer을 받은 후에 일어나는 일이다.
+
+- 서로 Stream을 주고 받은 후에는 peersStream이라는 video를 하나 더 만들어서
+
+## 3.8 Sender
+
+- 카메라를 바꾸면 그게 peer의 브라우저에서도 나타나게 해보자.
+- 우리는 peer연결을 만들었고, 연결을 만드는 동시에 그 연결에 track을 추가했다.
+- 우리가 해야 할 일은 그 track을 바꾸는 일이다. 왜냐하면 카메라를 바꿀때마다 우리는 여기서 새로운 stream을 새로운 deviceID로 만들것이다.
+- 즉, peer한테 줄 stream을 업데이트 하는 것이다. 왜냐하면 우리가 peer-to-peer 연결을 만들 때, 그 peer 연결에 track을 추가하기 떼문이다.
+
+- sender란 peer로 보내진 media stream track을 컨트롤하게 해준다.
