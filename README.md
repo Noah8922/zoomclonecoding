@@ -158,7 +158,7 @@ socket.on("welcome", async () => {
 ## 3.8 Sender
 
 - 카메라를 바꾸면 그게 peer의 브라우저에서도 나타나게 해보자.
-- 우리는 peer연결을 만들었고, 연결을 만드는 동시에 그 연결에 track을 추가했다.
+- 우리는 peer연결을 만들었고, 연결을 만드는 동시에 그 연결에 track을0 추가했다.
 - 우리가 해야 할 일은 그 track을 바꾸는 일이다. 왜냐하면 카메라를 바꿀때마다 우리는 여기서 새로운 stream을 새로운 deviceID로 만들것이다.
 - 즉, peer한테 줄 stream을 업데이트 하는 것이다. 왜냐하면 우리가 peer-to-peer 연결을 만들 때, 그 peer 연결에 track을 추가하기 떼문이다.
 

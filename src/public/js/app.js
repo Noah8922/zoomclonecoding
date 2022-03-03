@@ -85,6 +85,7 @@ function handleCameraClick() {
   }
 }
 
+//replace the camera
 async function handleCameraChange() {
   await getMedia(cameraSelect.value);
   if (myPeerConnection) {
@@ -155,7 +156,19 @@ socket.on("ice", (ice) => {
 
 //RTC code (이 함수가 실제로 연결을 만드는 함수가 될 것이다.)
 function makeConnection() {
-  myPeerConnection = new RTCPeerConnection();
+  myPeerConnection = new RTCPeerConnection({
+    iceServers: [
+      {
+        urls: [
+          "stun:stun.l.google.com:19302",
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
+          "stun:stun3.l.google.com:19302",
+          "stun:stun4.l.google.com:19302",
+        ],
+      },
+    ],
+  });
   myPeerConnection.addEventListener("icecandidate", handleIce);
   myPeerConnection.addEventListener("addstream", handleAddstream);
   myStream
